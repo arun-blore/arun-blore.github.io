@@ -1,1 +1,30 @@
-Hello World
+Hello World.
+
+Djikstra's shortest path implementation in C++.
+
+A key data structure used in Djikstra shortest path algorithm is the priority queue.
+A minimal "vanilla" min priority queue has the following api:
+
+void push (object, priority).
+This adds an object with the associated priority into the priority queue.
+
+object pop ()
+This removes the object with lowest priority from the queue and returns it.
+
+However, this api is insufficient for the priority queue we require for our shortest path algorithm.
+We need the following additional functions:
+1. The pop function, in addition to returning the object with minimum priority, must also return the priority value itself.
+This is because in the Djikstra's shortest path algorithm, that priority is the length of the shortest path to the node being popped.
+This value is used to modify the priorities of its neighbouring nodes in the queue.
+One way to solve this without changing the api is to embed the priority into the object being pushed or popped itself, which in this case
+is a node. The node and its priority could be combined into a single class, say node_with_prio. This might have a method prio () that returns the priority of the node.
+
+2. An additional method, decrease_priority (node, prio) needs to be implemented. The 'node' argument is a handle to an object in the queue. One possibility is that
+nodes are just addressed as integers starting from 0 and 'node' is just the value of the integer. How do we implement the node to queue element mapping?
+
+
+Is it possible to keep the design of the priority queue completely general? i.e. can we create a priority queue that can store arbitrary objects with integer priorities? Also,
+is it possible to do that while keeping the api as close to the minimal api described? Clearly, one addition in the form of decrease_priority function will have to be made
+to the minimal api. Even so, what would be a general way of accessing elements inside the queue?
+The decrease_priority method described above is a not so general method since it depends on each queue element (nodes in our case) being addressable using an integer. This
+may not be the case always. A better way would be to access each element via some sort of reference.
